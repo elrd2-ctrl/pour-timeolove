@@ -274,7 +274,7 @@
         .next-btn { margin-top: 20px; padding: 10px 30px; background: transparent; border: 1px solid var(--gold-subtle); color: var(--gold-subtle); cursor: pointer; font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; display: none; transition: all 0.3s ease; }
         .next-btn:hover { background: var(--gold-subtle); color: var(--bg-navy); }
 
-        /* --- NOUVEAU : JEU DU MEMORY --- */
+        /* --- JEU DU MEMORY --- */
         .memory-section {
             padding: 100px 8%;
             background-color: var(--bg-navy);
@@ -422,7 +422,7 @@
 
     <section class="jardin-section" id="jardin">
         <h2>Le Jardin Secret</h2>
-        <p class="jardin-subtitle">Laisse ici autant de mots doux et de pensées que tu le souhaites...</p>
+        <p class="jardin-subtitle">Laves ici autant de mots doux et de pensées que tu le souhaites...</p>
         <div class="jardin-container">
             <textarea class="note-input" id="note-text" placeholder="Écris quelque chose ici..."></textarea>
             <button class="btn-plant" onclick="plantNote()">Planter un mot doux</button>
@@ -430,8 +430,29 @@
         </div>
     </section>
 
-    <script>
-        // --- COMPTEUR ---
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Configuration Firebase injectée avec tes clés
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7C5RzL99UR9jVtE8ZMlzfqtZ2lLK27Cw",
+            authDomain: "site-timeo-elia.firebaseapp.com",
+            projectId: "site-timeo-elia",
+            storageBucket: "site-timeo-elia.firebasestorage.app",
+            messagingSenderId: "842385014859",
+            appId: "1:842385014859:web:2c7d7586613044c3240dce"
+        };
+
+        // Initialisation de Firebase et de Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Rendre les fonctions accessibles globalement pour les clics HTML
+        window.plantNote = plantNote;
+        window.handleImageUpload = handleImageUpload;
+
+        // --- COMPTEUR TEMPOREL ---
         const dateRencontre = new Date(2025, 9, 9, 0, 0, 0); 
         function updateTimer() {
             const maintenant = new Date(); const difference = maintenant - dateRencontre;
@@ -446,35 +467,70 @@
         }
         setInterval(updateTimer, 1000); updateTimer();
 
-        // --- LIGHTBOX ---
-        function openLightbox(url, caption) { document.getElementById('lightbox-img').src = url; document.getElementById('lightbox-caption').innerText = caption || "Un instant capturé ✨"; document.getElementById('lightbox').classList.add('active'); }
-        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+        // --- GLOBAL LIGHTBOX ---
+        window.openLightbox = function(url, caption) { 
+            document.getElementById('lightbox-img').src = url; 
+            document.getElementById('lightbox-caption').innerText = caption || "Un instant capturé ✨"; 
+            document.getElementById('lightbox').classList.add('active'); 
+        }
+        window.closeLightbox = function() { document.getElementById('lightbox').classList.remove('active'); }
 
-        // --- COIN PHOTO IMPORTATION ---
+        // --- SYNC PHOTOS EN TEMPS RÉEL VIA FIREBASE ---
         function handleImageUpload(event) {
             const file = event.target.files[0]; if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const uploadedPhotos = JSON.parse(localStorage.getItem('albumPhotosImportees')) || [];
-                uploadedPhotos.unshift(e.target.result);
-                localStorage.setItem('albumPhotosImportees', JSON.stringify(uploadedPhotos));
-                displayImportedPhotos();
+            reader.onload = async function(e) {
+                try {
+                    await addDoc(collection(db, "photos"), {
+                        src: e.target.result,
+                        timestamp: Date.now()
+                    });
+                } catch (err) { console.error("Erreur d'envoi photo :", err); }
             };
             reader.readAsDataURL(file);
         }
-        function displayImportedPhotos() {
-            document.querySelectorAll('.imported-photo-item').forEach(el => el.remove());
-            const uploadedPhotos = JSON.parse(localStorage.getItem('albumPhotosImportees')) || [];
+
+        const qPhotos = query(collection(db, "photos"), orderBy("timestamp", "desc"));
+        onSnapshot(qPhotos, (snapshot) => {
+            document.querySelectorAll('.firebase-photo-item').forEach(el => el.remove());
             const grid = document.getElementById('gallery-grid-field');
-            uploadedPhotos.forEach(photoSrc => {
-                const container = document.createElement('div'); container.className = 'photo-container imported-photo-item';
-                container.onclick = function() { openLightbox(photoSrc, "Un nouveau souvenir ajouté... 📸"); };
-                const img = document.createElement('img'); img.src = photoSrc; container.appendChild(img);
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const container = document.createElement('div'); 
+                container.className = 'photo-container firebase-photo-item';
+                container.onclick = function() { openLightbox(data.src, "Un souvenir partagé... 📸"); };
+                const img = document.createElement('img'); img.src = data.src; 
+                container.appendChild(img);
                 grid.insertBefore(container, grid.firstChild);
             });
+        });
+
+        // --- JARDIN SECRET EN TEMPS RÉEL VIA FIREBASE ---
+        async function plantNote() {
+            const txt = document.getElementById('note-text').value.trim(); if(txt === "") return;
+            try {
+                await addDoc(collection(db, "messages"), {
+                    text: txt,
+                    timestamp: Date.now()
+                });
+                document.getElementById('note-text').value = "";
+            } catch (err) { console.error("Erreur d'envoi message :", err); }
         }
 
-        // --- CODE DU QUIZ ---
+        const qMessages = query(collection(db, "messages"), orderBy("timestamp", "desc"));
+        onSnapshot(qMessages, (snapshot) => {
+            const container = document.getElementById('mots-container'); 
+            container.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const noteElement = document.createElement('div'); 
+                noteElement.className = 'mot-item'; 
+                noteElement.innerText = data.text; 
+                container.appendChild(noteElement);
+            });
+        });
+
+        // --- SYSTEME QUIZ ---
         const datasetQuiz = [
             { q: "Qu'est-ce qui me fait toujours craquer chez toi, à chaque seconde ?", options: ["Tes talents de cuisinier", "Ton sourire", "Ta capacité à vider le frigo", "Tes goûts musicaux parfois douteux"], correct: 1, note: "Ton sourire illumine chacune de mes journées... ❤️" },
             { q: "Quel est notre plus grand défaut à tous les deux lorsqu'on est ensemble ?", options: ["On parle beaucoup trop fort", "Notre indécision légendaire", "On se dispute la télécommande", "On est beaucoup trop ordonnés"], correct: 1, note: "Mais au moins, on est indécis ensemble... et je ne changerais ça pour rien au monde ! 🤷‍♂️❤️" },
@@ -482,6 +538,12 @@
             { q: "Quand on est ensemble tous les deux, le temps a tendance à...", options: ["Ralentir quand il faut faire la vaisselle", "S'arrêter complètement", "Passer beaucoup trop vite", "Suivre le rythme normal d'une montre"], correct: 2, note: "Chaque minute à tes côtés est précieuse... N'oublie pas de regarder le compteur en haut ! ⏱️" }
         ];
         let currentQuestionIdx = 0; let answered = false;
+        window.nextQuestion = function() { currentQuestionIdx++; loadQuestion(); }
+        window.checkChoice = function(idx, btnElement) {
+            if(answered) return; let currentData = datasetQuiz[currentQuestionIdx];
+            if(idx === currentData.correct) { answered = true; btnElement.classList.add('correct'); document.getElementById('feedback-field').innerText = currentData.note; document.getElementById('next-button').style.display = "inline-block"; }
+            else { btnElement.classList.add('wrong'); document.getElementById('feedback-field').innerText = "Oups... essaie encore ! 😉"; }
+        }
         function loadQuestion() {
             answered = false; document.getElementById('feedback-field').innerText = ""; document.getElementById('next-button').style.display = "none";
             if(currentQuestionIdx >= datasetQuiz.length) {
@@ -493,78 +555,35 @@
             let optionsHTML = ""; currentData.options.forEach((opt, index) => { optionsHTML += `<button class="option-btn" onclick="checkChoice(${index}, this)">${opt}</button>`; });
             document.getElementById('options-field').innerHTML = optionsHTML;
         }
-        function checkChoice(idx, btnElement) {
-            if(answered) return; let currentData = datasetQuiz[currentQuestionIdx];
-            if(idx === currentData.correct) { answered = true; btnElement.classList.add('correct'); document.getElementById('feedback-field').innerText = currentData.note; document.getElementById('next-button').style.display = "inline-block"; }
-            else { btnElement.classList.add('wrong'); document.getElementById('feedback-field').innerText = "Oups... essaie encore ! 😉"; }
-        }
-        function nextQuestion() { currentQuestionIdx++; loadQuestion(); }
 
-        // --- NOUVEAU : JAVASCRIPT DU MEMORY ---
+        // --- SYSTEME DU MEMORY ---
         const icons = ["❤️", "🌹", "✨", "📸", "🥰", "⏱️", "✈️", "🍿"];
-        let cardsDeck = [...icons, ...icons]; // Doubler la liste pour faire des paires
-        let chosenCards = []; let chosenCardsId = []; let matchedCardsCount = 0;
-
-        function shuffle(array) { return array.sort(() => 05 - Math.random()); }
-
+        let cardsDeck = [...icons, ...icons]; let chosenCards = []; let chosenCardsId = []; let matchedCardsCount = 0;
+        function shuffle(array) { return array.sort(() => 0.5 - Math.random()); }
         function createMemoryBoard() {
-            const grid = document.getElementById('memory-grid-field');
-            shuffle(cardsDeck);
-            grid.innerHTML = "";
+            const grid = document.getElementById('memory-grid-field'); shuffle(cardsDeck); grid.innerHTML = "";
             cardsDeck.forEach((icon, index) => {
-                const card = document.createElement('div');
-                card.className = 'memory-card';
-                card.setAttribute('data-id', index);
-                card.innerText = icon;
-                card.onclick = flipMemoryCard;
-                grid.appendChild(card);
+                const card = document.createElement('div'); card.className = 'memory-card'; card.setAttribute('data-id', index);
+                card.innerText = icon; card.onclick = flipMemoryCard; grid.appendChild(card);
             });
         }
-
         function flipMemoryCard() {
             let cardId = this.getAttribute('data-id');
             if (chosenCardsId.length === 2 || chosenCardsId.includes(cardId) || this.classList.contains('matched')) return;
-
-            this.classList.add('flipped');
-            chosenCards.push(cardsDeck[cardId]);
-            chosenCardsId.push(cardId);
-
-            if (chosenCards.length === 2) {
-                setTimeout(checkMemoryMatch, 600);
-            }
+            this.classList.add('flipped'); chosenCards.push(cardsDeck[cardId]); chosenCardsId.push(cardId);
+            if (chosenCards.length === 2) { setTimeout(checkMemoryMatch, 600); }
         }
-
         function checkMemoryMatch() {
-            const cards = document.querySelectorAll('.memory-card');
-            const firstId = chosenCardsId[0]; const secondId = chosenCardsId[1];
-
+            const cards = document.querySelectorAll('.memory-card'); const firstId = chosenCardsId[0]; const secondId = chosenCardsId[1];
             if (chosenCards[0] === chosenCards[1]) {
-                cards[firstId].classList.add('matched');
-                cards[secondId].classList.add('matched');
-                matchedCardsCount += 2;
-                if (matchedCardsCount === cardsDeck.length) {
-                    document.getElementById('memory-win-field').style.display = 'block';
-                }
-            } else {
-                cards[firstId].classList.remove('flipped');
-                cards[secondId].classList.remove('flipped');
-            }
+                cards[firstId].classList.add('matched'); cards[secondId].classList.add('matched'); matchedCardsCount += 2;
+                if (matchedCardsCount === cardsDeck.length) { document.getElementById('memory-win-field').style.display = 'block'; }
+            } else { cards[firstId].classList.remove('flipped'); cards[secondId].classList.remove('flipped'); }
             chosenCards = []; chosenCardsId = [];
         }
 
-        // --- JARDIN SECRET ---
-        function loadSavedNotes() {
-            const savedNotes = JSON.parse(localStorage.getItem('jardinSecrets')) || []; const container = document.getElementById('mots-container'); container.innerHTML = "";
-            savedNotes.forEach(txt => { const noteElement = document.createElement('div'); noteElement.className = 'mot-item'; noteElement.innerText = txt; container.appendChild(noteElement); });
-        }
-        function plantNote() {
-            const txt = document.getElementById('note-text').value.trim(); if(txt === "") return;
-            const savedNotes = JSON.parse(localStorage.getItem('jardinSecrets')) || []; savedNotes.unshift(txt); localStorage.setItem('jardinSecrets', JSON.stringify(savedNotes));
-            document.getElementById('note-text').value = ""; loadSavedNotes();
-        }
-
-        // Lancements
-        loadQuestion(); loadSavedNotes(); displayImportedPhotos(); createMemoryBoard();
+        // Lancement des modules secondaires au démarrage
+        loadQuestion(); createMemoryBoard();
     </script>
 </body>
 </html>
