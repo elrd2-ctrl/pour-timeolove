@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour Timéo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES DE COULEURS CHIC --- */
+        :root {
+            --bg-navy: #0d1b2a;       
+            --bg-card: #14243b;       
+            --blood-red: #7a0010;     
+            --blood-hover: #990014;   
+            --gold-subtle: #dfc293;   
+            --text-light: #f4f6f9;    
+            --text-muted: #a4b3c6;    
+        }
+
+        /* --- STRUCTURE & FLUIDITÉ --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-navy);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(13, 27, 42, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(223, 194, 147, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--blood-red);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.4s ease;
+        }
+
+        .nav-links a:hover { color: var(--gold-subtle); }
+
+        /* --- ACCUEIL --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-style: italic;
+            margin-bottom: 25px;
+            color: var(--text-light);
+        }
+
+        .hero h1 span { font-style: normal; color: var(--gold-subtle); }
+
+        .hero p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin-bottom: 45px;
+            line-height: 1.8;
+        }
+
+        .btn-explore {
+            padding: 14px 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-light);
+            background: var(--blood-red);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .btn-explore:hover {
+            background: var(--blood-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(122, 0, 16, 0.3);
+        }
+
+        /* --- COMPTEUR --- */
+        .counter-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: rgba(20, 36, 59, 0.4);
+            border-top: 1px solid rgba(223, 194, 147, 0.05);
+            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
+        }
+
+        .counter-section h2 { font-size: 2.2rem; margin-bottom: 10px; }
+
+        .counter-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: var(--bg-card);
+            padding: 20px 30px;
+            min-width: 120px;
+            border: 1px solid rgba(223, 194, 147, 0.1);
+        }
+
+        .time-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--gold-subtle);
+            font-weight: 600;
+        }
+
+        .time-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* --- ALBUM PHOTO --- */
+        .album-section {
+            padding: 100px 8%;
+            background-color: var(--bg-navy);
+            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
+            text-align: center;
+        }
+
+        .album-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 15px; }
+        .album-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 35px; font-style: italic; }
+
+        .btn-upload-label {
+            padding: 12px 25px;
+            background: transparent;
+            border: 1px dashed var(--gold-subtle);
+            color: var(--gold-subtle);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .photo-container {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-card);
+            aspect-ratio: 4/5;
+            cursor: pointer;
+            border: 1px solid rgba(223, 194, 147, 0.1);
+        }
+
+        .photo-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(15%); transition: all 0.6s ease;
+        }
+
+        .photo-container:hover img { transform: scale(1.04); filter: grayscale(0%); }
+
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 27, 42, 0.96); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox img { max-width: 85%; max-height: 75vh; border: 1px solid var(--gold-subtle); }
+        .lightbox-caption { margin-top: 20px; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; color: var(--gold-subtle); text-align: center; max-width: 70%; }
+        .lightbox-close { position: absolute; top: 30px; right: 40px; font-size: 2.5rem; color: var(--text-light); cursor: pointer; }
+
+        /* --- QUIZ --- */
+        .quiz-section {
+            padding: 100px 8%;
+            background-color: var(--bg-navy);
+            display: flex; flex-direction: column; align-items: center;
+            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
+        }
+
+        .quiz-container { background: var(--bg-card); max-width: 650px; width: 100%; padding: 40px; border: 1px solid rgba(223, 194, 147, 0.1); text-align: center; }
+        .quiz-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 40px; }
+        .question-text { font-size: 1.25rem; margin-bottom: 30px; line-height: 1.6; min-height: 60px; }
+        .options-container { display: flex; flex-direction: column; gap: 15px; }
+
+        .option-btn {
+            background: transparent; color: var(--text-light); border: 1px solid rgba(223, 194, 147, 0.3);
+            padding: 15px 20px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; cursor: pointer; text-align: left; transition: all 0.3s ease;
+        }
+
+        .option-btn:hover { border-color: var(--gold-subtle); background: rgba(223, 194, 147, 0.02); }
+        .option-btn.correct { background: var(--blood-red) !important; border-color: var(--blood-hover) !important; color: white; }
+        .option-btn.wrong { background: rgba(255, 255, 255, 0.05) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: var(--text-muted); text-decoration: line-through; }
+        .feedback-box { margin-top: 25px; min-height: 50px; font-style: italic; color: var(--gold-subtle); font-size: 1.05rem; }
+        .next-btn { margin-top: 20px; padding: 10px 30px; background: transparent; border: 1px solid var(--gold-subtle); color: var(--gold-subtle); cursor: pointer; font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; display: none; transition: all 0.3s ease; }
+        .next-btn:hover { background: var(--gold-subtle); color: var(--bg-navy); }
+
+        /* --- NOUVEAU : JEU DU MEMORY --- */
+        .memory-section {
+            padding: 100px 8%;
+            background-color: var(--bg-navy);
+            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
+            text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .memory-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 15px; }
+        .memory-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; font-style: italic; }
+        
+        .memory-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
+            max-width: 450px; width: 100%; margin-bottom: 30px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1/1; background: var(--bg-card);
+            border: 1px solid rgba(223, 194, 147, 0.2);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.8rem; cursor: pointer; transition: all 0.3s ease;
+            user-select: none; color: transparent;
+        }
+
+        .memory-card.flipped {
+            background: rgba(223, 194, 147, 0.1); border-color: var(--gold-subtle); color: var(--gold-subtle);
+        }
+
+        .memory-card.matched {
+            background: var(--blood-red); border-color: var(--blood-hover); color: white; opacity: 0.8; cursor: default;
+        }
+
+        .memory-win-message {
+            max-width: 650px; width: 100%; padding: 30px;
+            border: 1px dashed var(--gold-subtle); background: var(--bg-card);
+            font-style: italic; color: var(--gold-subtle); line-height: 1.7;
+            display: none; animation: fadeIn 0.8s ease;
+        }
+
+        /* --- JARDIN SECRET --- */
+        .jardin-section {
+            padding: 100px 8%; background-color: rgba(20, 36, 59, 0.2);
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .jardin-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 15px; }
+        .jardin-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; font-style: italic; }
+        .jardin-container { max-width: 650px; width: 100%; text-align: center; }
+        .note-input { width: 100%; height: 120px; background: var(--bg-card); border: 1px solid rgba(223, 194, 147, 0.2); color: var(--text-light); padding: 20px; font-family: 'Montserrat', sans-serif; font-size: 1rem; resize: none; margin-bottom: 20px; }
+        .note-input:focus { outline: none; border-color: var(--gold-subtle); }
+        .btn-plant { padding: 12px 30px; background: var(--blood-red); color: white; border: none; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: background 0.3s; }
+        .btn-plant:hover { background: var(--blood-hover); }
+        .mots-recus { margin-top: 40px; display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        .mot-item { background: var(--bg-card); border-left: 3px solid var(--gold-subtle); padding: 20px; text-align: left; font-style: italic; line-height: 1.6; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.3rem; }
+            .nav-links { display: none; }
+            .memory-grid { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#accueil" class="logo">Timéo <span>&</span> Elia</a>
+        <ul class="nav-links">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#album">Album</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#jeu-memory">Le Défi</a></li>
+            <li><a href="#jardin">Jardin</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="accueil">
+        <h1>Quelques lignes <span>pour nous...</span></h1>
+        <p>Bienvenue dans notre écrin secret. Un espace entièrement pensé pour toi, pour graver nos plus beaux souvenirs et s'offrir une parenthèse à deux.</p>
+        <button class="btn-explore" onclick="document.getElementById('compteur').scrollIntoView();">Entrer dans notre espace</button>
+    </section>
+
+    <section class="counter-section" id="compteur">
+        <h2>Le temps s'arrête</h2>
+        <p class="counter-subtitle">Depuis notre premier jour ensemble</p>
+        <div class="timer-container">
+            <div class="time-box"> <div class="time-number" id="days">00</div> <div class="time-label">Jours</div> </div>
+            <div class="time-box"> <div class="time-number" id="hours">00</div> <div class="time-label">Heures</div> </div>
+            <div class="time-box"> <div class="time-number" id="minutes">00</div> <div class="time-label">Minutes</div> </div>
+            <div class="time-box"> <div class="time-number" id="seconds">00</div> <div class="time-label">Secondes</div> </div>
+        </div>
+    </section>
+
+    <section class="album-section" id="album">
+        <h2>Fragments de Souvenirs</h2>
+        <p class="album-subtitle">Nos moments précieux figés dans le temps</p>
+        
+        <div class="upload-zone">
+            <input type="file" id="file-uploader" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            <label for="file-uploader" class="btn-upload-label">+ Ajouter un souvenir</label>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid-field">
+            <div class="photo-container" onclick="openLightbox('https://i.ibb.co/rPBXWYF/IMG-4765.jpg', 'Souvenir numéro 1 : Une jolie journée...')">
+                <img src="https://i.ibb.co/rPBXWYF/IMG-4765.jpg" alt="Souvenir">
+            </div>
+            <div class="photo-container" onclick="openLightbox('https://i.ibb.co/0RyV6ND5/IMG-4767.jpg', 'Souvenir numéro 2 : Ce sourire gravé.')">
+                <img src="https://i.ibb.co/0RyV6ND5/IMG-4767.jpg" alt="Souvenir">
+            </div>
+            <div class="photo-container" onclick="openLightbox('https://i.ibb.co/kgs6Z4TK/IMG-4768.jpg', 'Souvenir numéro 3 : Nos instants à deux.')">
+                <img src="https://i.ibb.co/kgs6Z4TK/IMG-4768.jpg" alt="Souvenir">
+            </div>
+            <div class="photo-container" onclick="openLightbox('https://i.ibb.co/BH29cmMs/IMG-4766.jpg', 'Souvenir numéro 4 : Un joli regard.')">
+                <img src="https://i.ibb.co/BH29cmMs/IMG-4766.jpg" alt="Souvenir">
+            </div>
+            <div class="photo-container" onclick="openLightbox('https://i.ibb.co/xtKjq5bf/IMG-4769.jpg', 'Souvenir numéro 5 : Notre complicité unique.')">
+                <img src="https://i.ibb.co/xtKjq5bf/IMG-4769.jpg" alt="Souvenir">
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span> <img id="lightbox-img" src="" alt="Agrandissement"> <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <section class="quiz-section" id="quiz">
+        <h2>Le Quiz de notre Histoire</h2>
+        <div class="quiz-container">
+            <div class="question-text" id="question-field">Chargement de la question...</div>
+            <div class="options-container" id="options-field"></div>
+            <div class="feedback-box" id="feedback-field"></div>
+            <button class="next-btn" id="next-button" onclick="nextQuestion()">Question Suivante</button>
+        </div>
+    </section>
+
+    <section class="memory-section" id="jeu-memory">
+        <h2>Le Défi des Paires</h2>
+        <p class="memory-subtitle">Associe les symboles de notre complicité pour débloquer ma lettre secrète...</p>
+        <div class="memory-grid" id="memory-grid-field"></div>
+        <div class="memory-win-message" id="memory-win-field">
+            "Bravo mon amour ! Tu as réussi le défi. Je voulais juste te dire à quel point je suis heureuse de t'avoir dans ma vie depuis ce fameux 9 octobre. Tu es ma plus belle certitude, mon sourire quotidien et mon plus joli refuge. Merci d'être la personne extraordinaire que tu es. Je t'aime infiniment. ❤️ Elia."
+        </div>
+    </section>
+
+    <section class="jardin-section" id="jardin">
+        <h2>Le Jardin Secret</h2>
+        <p class="jardin-subtitle">Laisse ici autant de mots doux et de pensées que tu le souhaites...</p>
+        <div class="jardin-container">
+            <textarea class="note-input" id="note-text" placeholder="Écris quelque chose ici..."></textarea>
+            <button class="btn-plant" onclick="plantNote()">Planter un mot doux</button>
+            <div class="mots-recus" id="mots-container"></div>
+        </div>
+    </section>
+
+    <script>
+        // --- COMPTEUR ---
+        const dateRencontre = new Date(2025, 9, 9, 0, 0, 0); 
+        function updateTimer() {
+            const maintenant = new Date(); const difference = maintenant - dateRencontre;
+            const jours = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const heures = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const secondes = Math.floor((difference % (1000 * 60)) / 1000);
+            document.getElementById('days').innerText = jours < 10 ? '0' + jours : jours;
+            document.getElementById('hours').innerText = heures < 10 ? '0' + heures : heures;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = secondes < 10 ? '0' + secondes : secondes;
+        }
+        setInterval(updateTimer, 1000); updateTimer();
+
+        // --- LIGHTBOX ---
+        function openLightbox(url, caption) { document.getElementById('lightbox-img').src = url; document.getElementById('lightbox-caption').innerText = caption || "Un instant capturé ✨"; document.getElementById('lightbox').classList.add('active'); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+        // --- COIN PHOTO IMPORTATION ---
+        function handleImageUpload(event) {
+            const file = event.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const uploadedPhotos = JSON.parse(localStorage.getItem('albumPhotosImportees')) || [];
+                uploadedPhotos.unshift(e.target.result);
+                localStorage.setItem('albumPhotosImportees', JSON.stringify(uploadedPhotos));
+                displayImportedPhotos();
+            };
+            reader.readAsDataURL(file);
+        }
+        function displayImportedPhotos() {
+            document.querySelectorAll('.imported-photo-item').forEach(el => el.remove());
+            const uploadedPhotos = JSON.parse(localStorage.getItem('albumPhotosImportees')) || [];
+            const grid = document.getElementById('gallery-grid-field');
+            uploadedPhotos.forEach(photoSrc => {
+                const container = document.createElement('div'); container.className = 'photo-container imported-photo-item';
+                container.onclick = function() { openLightbox(photoSrc, "Un nouveau souvenir ajouté... 📸"); };
+                const img = document.createElement('img'); img.src = photoSrc; container.appendChild(img);
+                grid.insertBefore(container, grid.firstChild);
+            });
+        }
+
+        // --- CODE DU QUIZ ---
+        const datasetQuiz = [
+            { q: "Qu'est-ce qui me fait toujours craquer chez toi, à chaque seconde ?", options: ["Tes talents de cuisinier", "Ton sourire", "Ta capacité à vider le frigo", "Tes goûts musicaux parfois douteux"], correct: 1, note: "Ton sourire illumine chacune de mes journées... ❤️" },
+            { q: "Quel est notre plus grand défaut à tous les deux lorsqu'on est ensemble ?", options: ["On parle beaucoup trop fort", "Notre indécision légendaire", "On se dispute la télécommande", "On est beaucoup trop ordonnés"], correct: 1, note: "Mais au moins, on est indécis ensemble... et je ne changerais ça pour rien au monde ! 🤷‍♂️❤️" },
+            { q: "Si notre histoire entamée un 9 octobre était un livre, quel en serait le titre ?", options: ["Chroniques d'un couple trop bavard", "Une aventure pleine de rebondissements", "Le meilleur chapitre de ma vie", "Comment survivre avec Elia"], correct: 2, note: "Et j'ai hâte d'écrire toutes les pages suivantes avec toi. ✨" },
+            { q: "Quand on est ensemble tous les deux, le temps a tendance à...", options: ["Ralentir quand il faut faire la vaisselle", "S'arrêter complètement", "Passer beaucoup trop vite", "Suivre le rythme normal d'une montre"], correct: 2, note: "Chaque minute à tes côtés est précieuse... N'oublie pas de regarder le compteur en haut ! ⏱️" }
+        ];
+        let currentQuestionIdx = 0; let answered = false;
+        function loadQuestion() {
+            answered = false; document.getElementById('feedback-field').innerText = ""; document.getElementById('next-button').style.display = "none";
+            if(currentQuestionIdx >= datasetQuiz.length) {
+                document.getElementById('question-field').innerText = "Félicitations mon cœur !";
+                document.getElementById('options-field').innerHTML = "<p style='color:var(--text-muted); line-height:1.6;'>Tu as terminé le quiz avec succès. Tu connais notre histoire sur le bout des doigts. Je t'aime. ❤️</p>";
+                return;
+            }
+            let currentData = datasetQuiz[currentQuestionIdx]; document.getElementById('question-field').innerText = currentData.q;
+            let optionsHTML = ""; currentData.options.forEach((opt, index) => { optionsHTML += `<button class="option-btn" onclick="checkChoice(${index}, this)">${opt}</button>`; });
+            document.getElementById('options-field').innerHTML = optionsHTML;
+        }
+        function checkChoice(idx, btnElement) {
+            if(answered) return; let currentData = datasetQuiz[currentQuestionIdx];
+            if(idx === currentData.correct) { answered = true; btnElement.classList.add('correct'); document.getElementById('feedback-field').innerText = currentData.note; document.getElementById('next-button').style.display = "inline-block"; }
+            else { btnElement.classList.add('wrong'); document.getElementById('feedback-field').innerText = "Oups... essaie encore ! 😉"; }
+        }
+        function nextQuestion() { currentQuestionIdx++; loadQuestion(); }
+
+        // --- NOUVEAU : JAVASCRIPT DU MEMORY ---
+        const icons = ["❤️", "🌹", "✨", "📸", "🥰", "⏱️", "✈️", "🍿"];
+        let cardsDeck = [...icons, ...icons]; // Doubler la liste pour faire des paires
+        let chosenCards = []; let chosenCardsId = []; let matchedCardsCount = 0;
+
+        function shuffle(array) { return array.sort(() => 05 - Math.random()); }
+
+        function createMemoryBoard() {
+            const grid = document.getElementById('memory-grid-field');
+            shuffle(cardsDeck);
+            grid.innerHTML = "";
+            cardsDeck.forEach((icon, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.setAttribute('data-id', index);
+                card.innerText = icon;
+                card.onclick = flipMemoryCard;
+                grid.appendChild(card);
+            });
+        }
+
+        function flipMemoryCard() {
+            let cardId = this.getAttribute('data-id');
+            if (chosenCardsId.length === 2 || chosenCardsId.includes(cardId) || this.classList.contains('matched')) return;
+
+            this.classList.add('flipped');
+            chosenCards.push(cardsDeck[cardId]);
+            chosenCardsId.push(cardId);
+
+            if (chosenCards.length === 2) {
+                setTimeout(checkMemoryMatch, 600);
+            }
+        }
+
+        function checkMemoryMatch() {
+            const cards = document.querySelectorAll('.memory-card');
+            const firstId = chosenCardsId[0]; const secondId = chosenCardsId[1];
+
+            if (chosenCards[0] === chosenCards[1]) {
+                cards[firstId].classList.add('matched');
+                cards[secondId].classList.add('matched');
+                matchedCardsCount += 2;
+                if (matchedCardsCount === cardsDeck.length) {
+                    document.getElementById('memory-win-field').style.display = 'block';
+                }
+            } else {
+                cards[firstId].classList.remove('flipped');
+                cards[secondId].classList.remove('flipped');
+            }
+            chosenCards = []; chosenCardsId = [];
+        }
+
+        // --- JARDIN SECRET ---
+        function loadSavedNotes() {
+            const savedNotes = JSON.parse(localStorage.getItem('jardinSecrets')) || []; const container = document.getElementById('mots-container'); container.innerHTML = "";
+            savedNotes.forEach(txt => { const noteElement = document.createElement('div'); noteElement.className = 'mot-item'; noteElement.innerText = txt; container.appendChild(noteElement); });
+        }
+        function plantNote() {
+            const txt = document.getElementById('note-text').value.trim(); if(txt === "") return;
+            const savedNotes = JSON.parse(localStorage.getItem('jardinSecrets')) || []; savedNotes.unshift(txt); localStorage.setItem('jardinSecrets', JSON.stringify(savedNotes));
+            document.getElementById('note-text').value = ""; loadSavedNotes();
+        }
+
+        // Lancements
+        loadQuestion(); loadSavedNotes(); displayImportedPhotos(); createMemoryBoard();
+    </script>
+</body>
+</html>
