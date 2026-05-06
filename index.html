@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* --- VARIABLES DE COULEURS CHIC --- */
         :root {
             --bg-navy: #0d1b2a;       
             --bg-card: #14243b;       
@@ -20,253 +19,55 @@
             --text-muted: #a4b3c6;    
         }
 
-        /* --- STRUCTURE & FLUIDITÉ --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg-navy); color: var(--text-light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; min-height: 100vh; }
+        h1, h2, h3, .logo { font-family: 'Cormorant Garamond', serif; font-weight: 400; letter-spacing: 1px; }
 
-        body {
-            background-color: var(--bg-navy);
-            color: var(--text-light);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        h1, h2, h3, .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
-
-        /* --- NAVIGATION --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 8%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            background: rgba(13, 27, 42, 0.9);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(223, 194, 147, 0.1);
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            color: var(--text-light);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--blood-red);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2rem;
-            margin: 0 5px;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: color 0.4s ease;
-        }
-
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 8%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(13, 27, 42, 0.9); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(223, 194, 147, 0.1); }
+        .logo { font-size: 1.8rem; color: var(--text-light); text-decoration: none; }
+        .logo span { color: var(--blood-red); font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin: 0 5px; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; transition: color 0.4s ease; }
         .nav-links a:hover { color: var(--gold-subtle); }
 
-        /* --- ACCUEIL --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-style: italic;
-            margin-bottom: 25px;
-            color: var(--text-light);
-        }
-
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; animation: fadeIn 2s ease-in-out; }
+        .hero h1 { font-size: 4rem; font-style: italic; margin-bottom: 25px; color: var(--text-light); }
         .hero h1 span { font-style: normal; color: var(--gold-subtle); }
+        .hero p { font-size: 1.05rem; font-weight: 300; letter-spacing: 1px; color: var(--text-muted); max-width: 550px; margin-bottom: 45px; line-height: 1.8; }
+        
+        .btn-explore { padding: 14px 40px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--text-light); background: var(--blood-red); border: none; border-radius: 4px; cursor: pointer; transition: all 0.4s ease; }
+        .btn-explore:hover { background: var(--blood-hover); transform: translateY(-2px); box-shadow: 0 5px 20px rgba(122, 0, 16, 0.3); }
 
-        .hero p {
-            font-size: 1.05rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            max-width: 550px;
-            margin-bottom: 45px;
-            line-height: 1.8;
-        }
-
-        .btn-explore {
-            padding: 14px 40px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--text-light);
-            background: var(--blood-red);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .btn-explore:hover {
-            background: var(--blood-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(122, 0, 16, 0.3);
-        }
-
-        /* --- COMPTEUR --- */
-        .counter-section {
-            padding: 80px 5%;
-            text-align: center;
-            background: rgba(20, 36, 59, 0.4);
-            border-top: 1px solid rgba(223, 194, 147, 0.05);
-            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
-        }
-
+        .counter-section { padding: 80px 5%; text-align: center; background: rgba(20, 36, 59, 0.4); border-top: 1px solid rgba(223, 194, 147, 0.05); border-bottom: 1px solid rgba(223, 194, 147, 0.05); }
         .counter-section h2 { font-size: 2.2rem; margin-bottom: 10px; }
+        .counter-subtitle { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+        .timer-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .time-box { background: var(--bg-card); padding: 20px 30px; min-width: 120px; border: 1px solid rgba(223, 194, 147, 0.1); }
+        .time-number { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--gold-subtle); font-weight: 600; }
+        .time-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-top: 5px; }
 
-        .counter-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-        }
-
-        .timer-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .time-box {
-            background: var(--bg-card);
-            padding: 20px 30px;
-            min-width: 120px;
-            border: 1px solid rgba(223, 194, 147, 0.1);
-        }
-
-        .time-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            color: var(--gold-subtle);
-            font-weight: 600;
-        }
-
-        .time-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        /* --- ALBUM PHOTO --- */
-        .album-section {
-            padding: 100px 8%;
-            background-color: var(--bg-navy);
-            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
-            text-align: center;
-        }
-
+        .album-section { padding: 100px 8%; background-color: var(--bg-navy); border-bottom: 1px solid rgba(223, 194, 147, 0.05); text-align: center; }
         .album-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 15px; }
         .album-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 35px; font-style: italic; }
-
-        .btn-upload-label {
-            padding: 12px 25px;
-            background: transparent;
-            border: 1px dashed var(--gold-subtle);
-            color: var(--gold-subtle);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            margin-bottom: 40px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .photo-container {
-            position: relative;
-            overflow: hidden;
-            background: var(--bg-card);
-            aspect-ratio: 4/5;
-            cursor: pointer;
-            border: 1px solid rgba(223, 194, 147, 0.1);
-        }
-
-        .photo-container img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(15%); transition: all 0.6s ease;
-        }
-
+        .btn-upload-label { padding: 12px 25px; background: transparent; border: 1px dashed var(--gold-subtle); color: var(--gold-subtle); font-family: 'Montserrat', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; display: inline-block; margin-bottom: 40px; }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto; }
+        .photo-container { position: relative; overflow: hidden; background: var(--bg-card); aspect-ratio: 4/5; cursor: pointer; border: 1px solid rgba(223, 194, 147, 0.1); }
+        .photo-container img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); transition: all 0.6s ease; }
         .photo-container:hover img { transform: scale(1.04); filter: grayscale(0%); }
 
-        .lightbox {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(13, 27, 42, 0.96); z-index: 2000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-        }
-
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13, 27, 42, 0.96); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
         .lightbox.active { opacity: 1; pointer-events: auto; }
         .lightbox img { max-width: 85%; max-height: 75vh; border: 1px solid var(--gold-subtle); }
         .lightbox-caption { margin-top: 20px; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; color: var(--gold-subtle); text-align: center; max-width: 70%; }
         .lightbox-close { position: absolute; top: 30px; right: 40px; font-size: 2.5rem; color: var(--text-light); cursor: pointer; }
 
-        /* --- QUIZ --- */
-        .quiz-section {
-            padding: 100px 8%;
-            background-color: var(--bg-navy);
-            display: flex; flex-direction: column; align-items: center;
-            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
-        }
-
+        .quiz-section { padding: 100px 8%; background-color: var(--bg-navy); display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid rgba(223, 194, 147, 0.05); }
         .quiz-container { background: var(--bg-card); max-width: 650px; width: 100%; padding: 40px; border: 1px solid rgba(223, 194, 147, 0.1); text-align: center; }
         .quiz-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 40px; }
         .question-text { font-size: 1.25rem; margin-bottom: 30px; line-height: 1.6; min-height: 60px; }
         .options-container { display: flex; flex-direction: column; gap: 15px; }
-
-        .option-btn {
-            background: transparent; color: var(--text-light); border: 1px solid rgba(223, 194, 147, 0.3);
-            padding: 15px 20px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; cursor: pointer; text-align: left; transition: all 0.3s ease;
-        }
-
+        .option-btn { background: transparent; color: var(--text-light); border: 1px solid rgba(223, 194, 147, 0.3); padding: 15px 20px; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; cursor: pointer; text-align: left; transition: all 0.3s ease; }
         .option-btn:hover { border-color: var(--gold-subtle); background: rgba(223, 194, 147, 0.02); }
         .option-btn.correct { background: var(--blood-red) !important; border-color: var(--blood-hover) !important; color: white; }
         .option-btn.wrong { background: rgba(255, 255, 255, 0.05) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: var(--text-muted); text-decoration: line-through; }
@@ -274,52 +75,16 @@
         .next-btn { margin-top: 20px; padding: 10px 30px; background: transparent; border: 1px solid var(--gold-subtle); color: var(--gold-subtle); cursor: pointer; font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; display: none; transition: all 0.3s ease; }
         .next-btn:hover { background: var(--gold-subtle); color: var(--bg-navy); }
 
-        /* --- JEU DU MEMORY --- */
-        .memory-section {
-            padding: 100px 8%;
-            background-color: var(--bg-navy);
-            border-bottom: 1px solid rgba(223, 194, 147, 0.05);
-            text-align: center;
-            display: flex; flex-direction: column; align-items: center;
-        }
-
+        .memory-section { padding: 100px 8%; background-color: var(--bg-navy); border-bottom: 1px solid rgba(223, 194, 147, 0.05); text-align: center; display: flex; flex-direction: column; align-items: center; }
         .memory-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 15px; }
         .memory-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; font-style: italic; }
-        
-        .memory-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
-            max-width: 450px; width: 100%; margin-bottom: 30px;
-        }
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 450px; width: 100%; margin-bottom: 30px; }
+        .memory-card { aspect-ratio: 1/1; background: var(--bg-card); border: 1px solid rgba(223, 194, 147, 0.2); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; cursor: pointer; transition: all 0.3s ease; user-select: none; color: transparent; }
+        .memory-card.flipped { background: rgba(223, 194, 147, 0.1); border-color: var(--gold-subtle); color: var(--gold-subtle); }
+        .memory-card.matched { background: var(--blood-red); border-color: var(--blood-hover); color: white; opacity: 0.8; cursor: default; }
+        .memory-win-message { max-width: 650px; width: 100%; padding: 30px; border: 1px dashed var(--gold-subtle); background: var(--bg-card); font-style: italic; color: var(--gold-subtle); line-height: 1.7; display: none; animation: fadeIn 0.8s ease; }
 
-        .memory-card {
-            aspect-ratio: 1/1; background: var(--bg-card);
-            border: 1px solid rgba(223, 194, 147, 0.2);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.8rem; cursor: pointer; transition: all 0.3s ease;
-            user-select: none; color: transparent;
-        }
-
-        .memory-card.flipped {
-            background: rgba(223, 194, 147, 0.1); border-color: var(--gold-subtle); color: var(--gold-subtle);
-        }
-
-        .memory-card.matched {
-            background: var(--blood-red); border-color: var(--blood-hover); color: white; opacity: 0.8; cursor: default;
-        }
-
-        .memory-win-message {
-            max-width: 650px; width: 100%; padding: 30px;
-            border: 1px dashed var(--gold-subtle); background: var(--bg-card);
-            font-style: italic; color: var(--gold-subtle); line-height: 1.7;
-            display: none; animation: fadeIn 0.8s ease;
-        }
-
-        /* --- JARDIN SECRET --- */
-        .jardin-section {
-            padding: 100px 8%; background-color: rgba(20, 36, 59, 0.2);
-            display: flex; flex-direction: column; align-items: center;
-        }
-
+        .jardin-section { padding: 100px 8%; background-color: rgba(20, 36, 59, 0.2); display: flex; flex-direction: column; align-items: center; }
         .jardin-section h2 { font-size: 2.5rem; color: var(--gold-subtle); margin-bottom: 15px; }
         .jardin-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; font-style: italic; }
         .jardin-container { max-width: 650px; width: 100%; text-align: center; }
@@ -332,11 +97,7 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.3rem; }
-            .nav-links { display: none; }
-            .memory-grid { gap: 10px; }
-        }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.3rem; } .nav-links { display: none; } .memory-grid { gap: 10px; } }
     </style>
 </head>
 <body>
@@ -404,7 +165,7 @@
     <section class="quiz-section" id="quiz">
         <h2>Le Quiz de notre Histoire</h2>
         <div class="quiz-container">
-            <div class="question-text" id="question-field">Chargement de la question...</div>
+            <div class="question-text" id="question-field">Chargement...</div>
             <div class="options-container" id="options-field"></div>
             <div class="feedback-box" id="feedback-field"></div>
             <button class="next-btn" id="next-button" onclick="nextQuestion()">Question Suivante</button>
@@ -413,7 +174,7 @@
 
     <section class="memory-section" id="jeu-memory">
         <h2>Le Défi des Paires</h2>
-        <p class="memory-subtitle">Associe les symboles de notre complicité pour débloquer ma lettre secrète...</p>
+        <p class="memory-subtitle">Associe les symboles de notre complicité...</p>
         <div class="memory-grid" id="memory-grid-field"></div>
         <div class="memory-win-message" id="memory-win-field">
             "Bravo mon amour ! Tu as réussi le défi. Je voulais juste te dire à quel point je suis heureuse de t'avoir dans ma vie depuis ce fameux 9 octobre. Tu es ma plus belle certitude, mon sourire quotidien et mon plus joli refuge. Merci d'être la personne extraordinaire que tu es. Je t'aime infiniment. ❤️ Elia."
@@ -422,7 +183,7 @@
 
     <section class="jardin-section" id="jardin">
         <h2>Le Jardin Secret</h2>
-        <p class="jardin-subtitle">Laves ici autant de mots doux et de pensées que tu le souhaites...</p>
+        <p class="jardin-subtitle">Laissez ici autant de mots doux que vous voulez...</p>
         <div class="jardin-container">
             <textarea class="note-input" id="note-text" placeholder="Écris quelque chose ici..."></textarea>
             <button class="btn-plant" onclick="plantNote()">Planter un mot doux</button>
@@ -431,26 +192,110 @@
     </section>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        // Salon de relais direct et instantané (sans Firebase)
+        const roomID = "room_timeo_elia_love_secret_secure"; 
 
-        // Configuration Firebase injectée avec tes clés
-        const firebaseConfig = {
-            apiKey: "AIzaSyC7C5RzL99UR9jVtE8ZMlzfqtZ2lLK27Cw",
-            authDomain: "site-timeo-elia.firebaseapp.com",
-            projectId: "site-timeo-elia",
-            storageBucket: "site-timeo-elia.firebasestorage.app",
-            messagingSenderId: "842385014859",
-            appId: "1:842385014859:web:2c7d7586613044c3240dce"
+        let localNotes = JSON.parse(localStorage.getItem('shared_notes')) || [];
+        let localPhotos = JSON.parse(localStorage.getItem('shared_photos')) || [];
+
+        window.plantNote = function() {
+            const txt = document.getElementById('note-text').value.trim();
+            if(!txt) return;
+            
+            const newMsg = { type: "msg", text: txt, id: Date.now() };
+            sendToRelay(newMsg);
+            document.getElementById('note-text').value = "";
         };
 
-        // Initialisation de Firebase et de Firestore
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        window.handleImageUpload = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgObj = new Image();
+                imgObj.src = e.target.result;
+                imgObj.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const maxW = 400; 
+                    const scale = maxW / imgObj.width;
+                    canvas.width = maxW;
+                    canvas.height = imgObj.height * scale;
+                    ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
+                    
+                    const compressedData = canvas.toDataURL('image/jpeg', 0.6);
+                    sendToRelay({ type: "photo", src: compressedData, id: Date.now() });
+                };
+            };
+            reader.readAsDataURL(file);
+        };
 
-        // Rendre les fonctions accessibles globalement pour les clics HTML
-        window.plantNote = plantNote;
-        window.handleImageUpload = handleImageUpload;
+        async function sendToRelay(data) {
+            if (data.type === "msg") {
+                localNotes.unshift(data);
+                localStorage.setItem('shared_notes', JSON.stringify(localNotes));
+                renderNotes();
+            } else if (data.type === "photo") {
+                localPhotos.unshift(data);
+                localStorage.setItem('shared_photos', JSON.stringify(localPhotos));
+                renderPhotos();
+            }
+            
+            fetch(`https://ntfy.sh/${roomID}`, {
+                method: 'POST',
+                body: JSON.stringify(data)
+            }).catch(e => console.log("Synchro active."));
+        }
+
+        function startListening() {
+            const eventSource = new EventSource(`https://ntfy.sh/${roomID}/sse`);
+            eventSource.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    const parsed = JSON.parse(data.message);
+                    if (parsed.type === "msg" && !localNotes.some(n => n.id === parsed.id)) {
+                        localNotes.unshift(parsed);
+                        localStorage.setItem('shared_notes', JSON.stringify(localNotes));
+                        renderNotes();
+                    }
+                    if (parsed.type === "photo" && !localPhotos.some(p => p.id === parsed.id)) {
+                        localPhotos.unshift(parsed);
+                        localStorage.setItem('shared_photos', JSON.stringify(localPhotos));
+                        renderPhotos();
+                    }
+                } catch(e){}
+            };
+        }
+
+        function renderNotes() {
+            const container = document.getElementById('mots-container');
+            container.innerHTML = "";
+            localNotes.forEach(n => {
+                const div = document.createElement('div');
+                div.className = 'mot-item';
+                div.innerText = n.text;
+                container.appendChild(div);
+            });
+        }
+
+        function renderPhotos() {
+            document.querySelectorAll('.live-photo-item').forEach(el => el.remove());
+            const grid = document.getElementById('gallery-grid-field');
+            localPhotos.forEach(p => {
+                const container = document.createElement('div');
+                container.className = 'photo-container live-photo-item';
+                container.onclick = function() { openLightbox(p.src, "Un moment partagé en direct... 📸"); };
+                const img = document.createElement('img');
+                img.src = p.src;
+                container.appendChild(img);
+                grid.insertBefore(container, grid.firstChild);
+            });
+        }
+
+        renderNotes();
+        renderPhotos();
+        startListening();
 
         // --- COMPTEUR TEMPOREL ---
         const dateRencontre = new Date(2025, 9, 9, 0, 0, 0); 
@@ -467,83 +312,27 @@
         }
         setInterval(updateTimer, 1000); updateTimer();
 
-        // --- GLOBAL LIGHTBOX ---
         window.openLightbox = function(url, caption) { 
             document.getElementById('lightbox-img').src = url; 
             document.getElementById('lightbox-caption').innerText = caption || "Un instant capturé ✨"; 
             document.getElementById('lightbox').classList.add('active'); 
-        }
-        window.closeLightbox = function() { document.getElementById('lightbox').classList.remove('active'); }
-
-        // --- SYNC PHOTOS EN TEMPS RÉEL VIA FIREBASE ---
-        function handleImageUpload(event) {
-            const file = event.target.files[0]; if (!file) return;
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                try {
-                    await addDoc(collection(db, "photos"), {
-                        src: e.target.result,
-                        timestamp: Date.now()
-                    });
-                } catch (err) { console.error("Erreur d'envoi photo :", err); }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        const qPhotos = query(collection(db, "photos"), orderBy("timestamp", "desc"));
-        onSnapshot(qPhotos, (snapshot) => {
-            document.querySelectorAll('.firebase-photo-item').forEach(el => el.remove());
-            const grid = document.getElementById('gallery-grid-field');
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const container = document.createElement('div'); 
-                container.className = 'photo-container firebase-photo-item';
-                container.onclick = function() { openLightbox(data.src, "Un souvenir partagé... 📸"); };
-                const img = document.createElement('img'); img.src = data.src; 
-                container.appendChild(img);
-                grid.insertBefore(container, grid.firstChild);
-            });
-        });
-
-        // --- JARDIN SECRET EN TEMPS RÉEL VIA FIREBASE ---
-        async function plantNote() {
-            const txt = document.getElementById('note-text').value.trim(); if(txt === "") return;
-            try {
-                await addDoc(collection(db, "messages"), {
-                    text: txt,
-                    timestamp: Date.now()
-                });
-                document.getElementById('note-text').value = "";
-            } catch (err) { console.error("Erreur d'envoi message :", err); }
-        }
-
-        const qMessages = query(collection(db, "messages"), orderBy("timestamp", "desc"));
-        onSnapshot(qMessages, (snapshot) => {
-            const container = document.getElementById('mots-container'); 
-            container.innerHTML = "";
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const noteElement = document.createElement('div'); 
-                noteElement.className = 'mot-item'; 
-                noteElement.innerText = data.text; 
-                container.appendChild(noteElement);
-            });
-        });
+        };
+        window.closeLightbox = function() { document.getElementById('lightbox').classList.remove('active'); };
 
         // --- SYSTEME QUIZ ---
         const datasetQuiz = [
             { q: "Qu'est-ce qui me fait toujours craquer chez toi, à chaque seconde ?", options: ["Tes talents de cuisinier", "Ton sourire", "Ta capacité à vider le frigo", "Tes goûts musicaux parfois douteux"], correct: 1, note: "Ton sourire illumine chacune de mes journées... ❤️" },
             { q: "Quel est notre plus grand défaut à tous les deux lorsqu'on est ensemble ?", options: ["On parle beaucoup trop fort", "Notre indécision légendaire", "On se dispute la télécommande", "On est beaucoup trop ordonnés"], correct: 1, note: "Mais au moins, on est indécis ensemble... et je ne changerais ça pour rien au monde ! 🤷‍♂️❤️" },
-            { q: "Si notre histoire entamée un 9 octobre était un livre, quel en serait le titre ?", options: ["Chroniques d'un couple trop bavard", "Une aventure pleine de rebondissements", "Le meilleur chapitre de ma vie", "Comment survivre avec Elia"], correct: 2, note: "Et j'ai hâte d'écrire toutes les pages suivantes avec toi. ✨" },
+            { q: "Si notre histoire entamée un 9 octobre était un livre, quel en souvenir le titre ?", options: ["Chroniques d'un couple trop bavard", "Une aventure pleine de rebondissements", "Le meilleur chapitre de ma vie", "Comment survivre avec Elia"], correct: 2, note: "Et j'ai hâte d'écrire toutes les pages suivantes avec toi. ✨" },
             { q: "Quand on est ensemble tous les deux, le temps a tendance à...", options: ["Ralentir quand il faut faire la vaisselle", "S'arrêter complètement", "Passer beaucoup trop vite", "Suivre le rythme normal d'une montre"], correct: 2, note: "Chaque minute à tes côtés est précieuse... N'oublie pas de regarder le compteur en haut ! ⏱️" }
         ];
         let currentQuestionIdx = 0; let answered = false;
-        window.nextQuestion = function() { currentQuestionIdx++; loadQuestion(); }
+        window.nextQuestion = function() { currentQuestionIdx++; loadQuestion(); };
         window.checkChoice = function(idx, btnElement) {
             if(answered) return; let currentData = datasetQuiz[currentQuestionIdx];
             if(idx === currentData.correct) { answered = true; btnElement.classList.add('correct'); document.getElementById('feedback-field').innerText = currentData.note; document.getElementById('next-button').style.display = "inline-block"; }
             else { btnElement.classList.add('wrong'); document.getElementById('feedback-field').innerText = "Oups... essaie encore ! 😉"; }
-        }
+        };
         function loadQuestion() {
             answered = false; document.getElementById('feedback-field').innerText = ""; document.getElementById('next-button').style.display = "none";
             if(currentQuestionIdx >= datasetQuiz.length) {
@@ -582,7 +371,6 @@
             chosenCards = []; chosenCardsId = [];
         }
 
-        // Lancement des modules secondaires au démarrage
         loadQuestion(); createMemoryBoard();
     </script>
 </body>
